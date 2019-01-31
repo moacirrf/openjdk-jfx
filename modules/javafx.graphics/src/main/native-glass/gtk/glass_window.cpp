@@ -1250,6 +1250,9 @@ void WindowContextTop::window_configure(XWindowChanges *windowChanges,
         }
         // gtk_window_resize(GTK_WINDOW(gtk_widget), newWidth, newHeight);
         gtk_widget_set_size_request(gtk_widget, newWidth, newHeight);
+        #ifndef GLASS_GTK3
+            ensure_window_size();
+        #endif
     }
 }
 
