@@ -1248,11 +1248,15 @@ void WindowContextTop::window_configure(XWindowChanges *windowChanges,
             geom.min_height = geom.max_height = newHeight;
             gtk_window_set_geometry_hints(GTK_WINDOW(gtk_widget), NULL, &geom, hints);
         }
-        // gtk_window_resize(GTK_WINDOW(gtk_widget), newWidth, newHeight);
-        gtk_widget_set_size_request(gtk_widget, newWidth, newHeight);
-        #ifndef GLASS_GTK3
-            ensure_window_size();
-        #endif
+        gtk_window_resize(GTK_WINDOW(gtk_widget), newWidth, newHeight);
+        char* currentDesktop = getenv("XDG_CURRENT_DESKTOP");
+        char env[] = "KDE";
+        if (currentDesktop != NULL && *currentDesktop == *env) {
+            gtk_widget_set_size_request(gtk_widget, newWidth, newHeight);
+            #ifndef GLASS_GTK3
+                        ensure_window_size();
+            #endif
+        }
     }
 }
 
